@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-uberdriverapp-dev-165207-authRole",
+      "UnauthRoleArn": "arn:aws:iam::059396686644:role/amplify-uberdriverapp-dev-165207-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::059396686644:role/amplify-uberdriverapp-dev-165207-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-uberdriverapp-dev-165207-deployment",
+      "UnauthRoleName": "amplify-uberdriverapp-dev-165207-unauthRole",
+      "StackName": "amplify-uberdriverapp-dev-165207",
+      "StackId": "arn:aws:cloudformation:eu-west-1:059396686644:stack/amplify-uberdriverapp-dev-165207/889618e0-fea1-11eb-b130-066d4e6bdd27",
+      "AmplifyAppId": "d2cntjh3zvuqhm"
+    },
+    "categories": {
+      "auth": {
+        "uberdriverappd9e7a2bd": {}
+      }
+    }
+  }
+}
