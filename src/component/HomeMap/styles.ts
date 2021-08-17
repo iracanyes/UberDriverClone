@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 80,
     left: 0,
-    zIndex: 200,
+    zIndex: 150,
   },
   footerButtonContainer: {
     position: "absolute",
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     paddingTop: 10,
+    zIndex: 1,
   },
   buttonGo: {
     borderRadius: 50,
@@ -69,6 +70,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  iconNetworkOn: {
+    color: Colors.default.green.primary,
+    //backgroundColor: Colors.default.green.primary,
   },
 });
 

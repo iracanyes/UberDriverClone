@@ -45,6 +45,16 @@ type Order @model
   car: Car @connection(fields: ["carId"])
 }
 
+type Place
+@model
+{
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+
+  usersPlace: [UserPlace] @connection(keyName: "byPlace", fields: ["id"])
+}
+
 type UserPlace
 @model
 @key(name: "byUser", fields: ["userID","placeID"])
@@ -61,17 +71,18 @@ type UserPlace
   place: Place @connection(fields: ["placeID"])
 }
 
-type Place
-@model
-{
-  id: ID!
-  latitude: Float!
-  longitude: Float!
+################
+# Subscription
+#
+#type Subscription {
+#  onOrderUpdated(id: ID!): Order @aws_subscribe(mutations: ["updateOrder"])
+#  onCarUpdated(id: ID!): Car @aws_subscribe(mutations: ["updateCar"])
+#}
+################
 
-  usersPlace: [UserPlace] @connection(keyName: "byPlace", fields: ["id"])
-}
-
-##
+################
+# Sample Code
+#
 #type Task
 #  @model
 #  @auth(
@@ -89,4 +100,5 @@ type Place
 #  id: ID!
 #  content: String!
 #}
-###
+#
+################

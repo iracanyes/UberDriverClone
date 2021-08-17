@@ -50,5 +50,8 @@ export default {
     yellow: {
       gold: "#FFD700",
     },
+    green: {
+      primary: "#36c400",
+    },
   },
 };

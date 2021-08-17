@@ -530,6 +530,72 @@ export const onDeleteOrder = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePlace = /* GraphQL */ `
+  subscription OnCreatePlace {
+    onCreatePlace {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePlace = /* GraphQL */ `
+  subscription OnUpdatePlace {
+    onUpdatePlace {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePlace = /* GraphQL */ `
+  subscription OnDeletePlace {
+    onDeletePlace {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateUserPlace = /* GraphQL */ `
   subscription OnCreateUserPlace {
     onCreateUserPlace {
@@ -662,72 +728,6 @@ export const onDeleteUserPlace = /* GraphQL */ `
         }
         createdAt
         updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreatePlace = /* GraphQL */ `
-  subscription OnCreatePlace {
-    onCreatePlace {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdatePlace = /* GraphQL */ `
-  subscription OnUpdatePlace {
-    onUpdatePlace {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeletePlace = /* GraphQL */ `
-  subscription OnDeletePlace {
-    onDeletePlace {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
       createdAt
       updatedAt

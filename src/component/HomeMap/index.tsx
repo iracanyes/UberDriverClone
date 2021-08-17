@@ -13,9 +13,11 @@ import Geolocation from "@react-native-community/geolocation";
 import Env from "../../constants/Env";
 import Colors from "../../constants/Colors";
 import Entypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 import NetInfo from "@react-native-community/netinfo";
+
 
 navigator.geolocation = require("@react-native-community/geolocation");
 
@@ -51,6 +53,10 @@ const HomeMap = () => {
 
   const openMenu = () => {
     console.log("Button open menu pressed!");
+  };
+
+  const onNetworkPress = () => {
+    console.log("Button network pressed!");
   };
 
   const bottomAction1 = () => {
@@ -156,14 +162,27 @@ const HomeMap = () => {
       <View style={styles.bottomContainer}>
         <Pressable
           style={styles.bottomLeftbutton}
-          onPress={() => bottomAction1()}
+          onPress={() => onNetworkPress()}
         >
-          <Entypo name={"menu"} size={24} style={styles.iconMenu} />
+          {isOnline ? (
+            <FontAwesome
+              name={"toggle-on"}
+              size={24}
+              style={styles.iconNetworkOn}
+            />
+          ) : (
+            <FontAwesome
+              name={"toggle-off"}
+              size={24}
+              style={styles.iconNetworkOff}
+            />
+          )}
         </Pressable>
-        {isOnline
-          ? (<Text style={styles.bottomText}>You're online</Text>)
-          : (<Text style={styles.bottomText}>You're offline!</Text>)
-        }
+        {isOnline ? (
+          <Text style={styles.bottomText}>You're online</Text>
+        ) : (
+          <Text style={styles.bottomText}>You're offline!</Text>
+        )}
         <Pressable
           style={styles.bottomRightbutton}
           onPress={() => bottomAction1()}

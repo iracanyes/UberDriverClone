@@ -557,6 +557,81 @@ export const deleteOrder = /* GraphQL */ `
     }
   }
 `;
+export const createPlace = /* GraphQL */ `
+  mutation CreatePlace(
+    $input: CreatePlaceInput!
+    $condition: ModelPlaceConditionInput
+  ) {
+    createPlace(input: $input, condition: $condition) {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePlace = /* GraphQL */ `
+  mutation UpdatePlace(
+    $input: UpdatePlaceInput!
+    $condition: ModelPlaceConditionInput
+  ) {
+    updatePlace(input: $input, condition: $condition) {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePlace = /* GraphQL */ `
+  mutation DeletePlace(
+    $input: DeletePlaceInput!
+    $condition: ModelPlaceConditionInput
+  ) {
+    deletePlace(input: $input, condition: $condition) {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createUserPlace = /* GraphQL */ `
   mutation CreateUserPlace(
     $input: CreateUserPlaceInput!
@@ -698,81 +773,6 @@ export const deleteUserPlace = /* GraphQL */ `
         }
         createdAt
         updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createPlace = /* GraphQL */ `
-  mutation CreatePlace(
-    $input: CreatePlaceInput!
-    $condition: ModelPlaceConditionInput
-  ) {
-    createPlace(input: $input, condition: $condition) {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updatePlace = /* GraphQL */ `
-  mutation UpdatePlace(
-    $input: UpdatePlaceInput!
-    $condition: ModelPlaceConditionInput
-  ) {
-    updatePlace(input: $input, condition: $condition) {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deletePlace = /* GraphQL */ `
-  mutation DeletePlace(
-    $input: DeletePlaceInput!
-    $condition: ModelPlaceConditionInput
-  ) {
-    deletePlace(input: $input, condition: $condition) {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
       createdAt
       updatedAt

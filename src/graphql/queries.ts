@@ -287,6 +287,49 @@ export const listOrders = /* GraphQL */ `
     }
   }
 `;
+export const getPlace = /* GraphQL */ `
+  query GetPlace($id: ID!) {
+    getPlace(id: $id) {
+      id
+      latitude
+      longitude
+      usersPlace {
+        items {
+          id
+          description
+          userID
+          placeID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPlaces = /* GraphQL */ `
+  query ListPlaces(
+    $filter: ModelPlaceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPlaces(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        latitude
+        longitude
+        usersPlace {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getUserPlace = /* GraphQL */ `
   query GetUserPlace($id: ID!) {
     getUserPlace(id: $id) {
@@ -358,49 +401,6 @@ export const listUserPlaces = /* GraphQL */ `
           longitude
           createdAt
           updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getPlace = /* GraphQL */ `
-  query GetPlace($id: ID!) {
-    getPlace(id: $id) {
-      id
-      latitude
-      longitude
-      usersPlace {
-        items {
-          id
-          description
-          userID
-          placeID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listPlaces = /* GraphQL */ `
-  query ListPlaces(
-    $filter: ModelPlaceFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPlaces(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        latitude
-        longitude
-        usersPlace {
-          nextToken
         }
         createdAt
         updatedAt

@@ -10,7 +10,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 
 const DrawerContent = (props: IDrawerContent) => {
   const { state, navigation, descriptors, progress } = props;
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const fetchUser = async () => {

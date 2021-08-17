@@ -1,6 +1,6 @@
 {
   "auth": {
-    "uberdriverappd9e7a2bd": {
+    "uberclone98152628": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,7 +8,7 @@
     }
   },
   "api": {
-    "uberdriverapp": {
+    "uberclone": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -16,7 +16,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authuberdriverappd9e7a2bd"
+              "userPoolId": "authuberclone98152628"
             }
           },
           "additionalAuthenticationProviders": []

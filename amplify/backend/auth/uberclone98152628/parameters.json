@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "uberdriverappd9e7a2bd_identitypool_d9e7a2bd",
+    "identityPoolName": "uberclone98152628_identitypool_98152628",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "uberdrd9e7a2bd",
-    "userPoolName": "uberdriverappd9e7a2bd_userpool_d9e7a2bd",
+    "resourceNameTruncated": "ubercl98152628",
+    "userPoolName": "uberclone98152628_userpool_98152628",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "uberdrd9e7a2bd_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "ubercl98152628_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "d9e7a2bd",
-    "resourceName": "uberdriverappd9e7a2bd",
+    "sharedId": "98152628",
+    "resourceName": "uberclone98152628",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -49,16 +49,17 @@
         ]
     },
     "useDefault": "defaultSocial",
+    "userPoolGroupList": [],
+    "serviceName": "Cognito",
+    "usernameCaseSensitive": false,
+    "dependsOn": [],
     "hostedUI": true,
-    "hostedUIDomainName": "uberdriverappd9e7a2bd-d9e7a2bd",
+    "hostedUIDomainName": "uberclonefe348119-fe348119",
     "authProvidersUserPool": [
         "Facebook",
         "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8081/\"],\"LogoutURLs\":[\"http://localhost:8081/\"]}",
-    "userPoolGroupList": [],
-    "serviceName": "Cognito",
-    "usernameCaseSensitive": false,
-    "dependsOn": []
+    "authProviders": []
 }

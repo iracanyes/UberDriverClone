@@ -260,6 +260,30 @@ export type DeleteOrderInput = {
   id: string,
 };
 
+export type CreatePlaceInput = {
+  id?: string | null,
+  latitude: number,
+  longitude: number,
+};
+
+export type ModelPlaceConditionInput = {
+  latitude?: ModelFloatInput | null,
+  longitude?: ModelFloatInput | null,
+  and?: Array< ModelPlaceConditionInput | null > | null,
+  or?: Array< ModelPlaceConditionInput | null > | null,
+  not?: ModelPlaceConditionInput | null,
+};
+
+export type UpdatePlaceInput = {
+  id: string,
+  latitude?: number | null,
+  longitude?: number | null,
+};
+
+export type DeletePlaceInput = {
+  id: string,
+};
+
 export type CreateUserPlaceInput = {
   id?: string | null,
   description: string,
@@ -284,30 +308,6 @@ export type UpdateUserPlaceInput = {
 };
 
 export type DeleteUserPlaceInput = {
-  id: string,
-};
-
-export type CreatePlaceInput = {
-  id?: string | null,
-  latitude: number,
-  longitude: number,
-};
-
-export type ModelPlaceConditionInput = {
-  latitude?: ModelFloatInput | null,
-  longitude?: ModelFloatInput | null,
-  and?: Array< ModelPlaceConditionInput | null > | null,
-  or?: Array< ModelPlaceConditionInput | null > | null,
-  not?: ModelPlaceConditionInput | null,
-};
-
-export type UpdatePlaceInput = {
-  id: string,
-  latitude?: number | null,
-  longitude?: number | null,
-};
-
-export type DeletePlaceInput = {
   id: string,
 };
 
@@ -361,16 +361,6 @@ export type ModelOrderFilterInput = {
   not?: ModelOrderFilterInput | null,
 };
 
-export type ModelUserPlaceFilterInput = {
-  id?: ModelIDInput | null,
-  description?: ModelStringInput | null,
-  userID?: ModelIDInput | null,
-  placeID?: ModelIDInput | null,
-  and?: Array< ModelUserPlaceFilterInput | null > | null,
-  or?: Array< ModelUserPlaceFilterInput | null > | null,
-  not?: ModelUserPlaceFilterInput | null,
-};
-
 export type ModelPlaceFilterInput = {
   id?: ModelIDInput | null,
   latitude?: ModelFloatInput | null,
@@ -384,6 +374,16 @@ export type ModelPlaceConnection = {
   __typename: "ModelPlaceConnection",
   items?:  Array<Place | null > | null,
   nextToken?: string | null,
+};
+
+export type ModelUserPlaceFilterInput = {
+  id?: ModelIDInput | null,
+  description?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  placeID?: ModelIDInput | null,
+  and?: Array< ModelUserPlaceFilterInput | null > | null,
+  or?: Array< ModelUserPlaceFilterInput | null > | null,
+  not?: ModelUserPlaceFilterInput | null,
 };
 
 export type CreateUserMutationVariables = {
@@ -1019,6 +1019,93 @@ export type DeleteOrderMutation = {
   } | null,
 };
 
+export type CreatePlaceMutationVariables = {
+  input: CreatePlaceInput,
+  condition?: ModelPlaceConditionInput | null,
+};
+
+export type CreatePlaceMutation = {
+  createPlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdatePlaceMutationVariables = {
+  input: UpdatePlaceInput,
+  condition?: ModelPlaceConditionInput | null,
+};
+
+export type UpdatePlaceMutation = {
+  updatePlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeletePlaceMutationVariables = {
+  input: DeletePlaceInput,
+  condition?: ModelPlaceConditionInput | null,
+};
+
+export type DeletePlaceMutation = {
+  deletePlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateUserPlaceMutationVariables = {
   input: CreateUserPlaceInput,
   condition?: ModelUserPlaceConditionInput | null,
@@ -1184,93 +1271,6 @@ export type DeleteUserPlaceMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreatePlaceMutationVariables = {
-  input: CreatePlaceInput,
-  condition?: ModelPlaceConditionInput | null,
-};
-
-export type CreatePlaceMutation = {
-  createPlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdatePlaceMutationVariables = {
-  input: UpdatePlaceInput,
-  condition?: ModelPlaceConditionInput | null,
-};
-
-export type UpdatePlaceMutation = {
-  updatePlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeletePlaceMutationVariables = {
-  input: DeletePlaceInput,
-  condition?: ModelPlaceConditionInput | null,
-};
-
-export type DeletePlaceMutation = {
-  deletePlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1610,6 +1610,59 @@ export type ListOrdersQuery = {
   } | null,
 };
 
+export type GetPlaceQueryVariables = {
+  id: string,
+};
+
+export type GetPlaceQuery = {
+  getPlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListPlacesQueryVariables = {
+  filter?: ModelPlaceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListPlacesQuery = {
+  listPlaces?:  {
+    __typename: "ModelPlaceConnection",
+    items?:  Array< {
+      __typename: "Place",
+      id: string,
+      latitude: number,
+      longitude: number,
+      usersPlace?:  {
+        __typename: "ModelUserPlaceConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetUserPlaceQueryVariables = {
   id: string,
 };
@@ -1696,59 +1749,6 @@ export type ListUserPlacesQuery = {
         longitude: number,
         createdAt: string,
         updatedAt: string,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetPlaceQueryVariables = {
-  id: string,
-};
-
-export type GetPlaceQuery = {
-  getPlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListPlacesQueryVariables = {
-  filter?: ModelPlaceFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPlacesQuery = {
-  listPlaces?:  {
-    __typename: "ModelPlaceConnection",
-    items?:  Array< {
-      __typename: "Place",
-      id: string,
-      latitude: number,
-      longitude: number,
-      usersPlace?:  {
-        __typename: "ModelUserPlaceConnection",
-        nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
@@ -2345,6 +2345,78 @@ export type OnDeleteOrderSubscription = {
   } | null,
 };
 
+export type OnCreatePlaceSubscription = {
+  onCreatePlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdatePlaceSubscription = {
+  onUpdatePlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeletePlaceSubscription = {
+  onDeletePlace?:  {
+    __typename: "Place",
+    id: string,
+    latitude: number,
+    longitude: number,
+    usersPlace?:  {
+      __typename: "ModelUserPlaceConnection",
+      items?:  Array< {
+        __typename: "UserPlace",
+        id: string,
+        description: string,
+        userID: string,
+        placeID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateUserPlaceSubscription = {
   onCreateUserPlace?:  {
     __typename: "UserPlace",
@@ -2495,78 +2567,6 @@ export type OnDeleteUserPlaceSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreatePlaceSubscription = {
-  onCreatePlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdatePlaceSubscription = {
-  onUpdatePlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeletePlaceSubscription = {
-  onDeletePlace?:  {
-    __typename: "Place",
-    id: string,
-    latitude: number,
-    longitude: number,
-    usersPlace?:  {
-      __typename: "ModelUserPlaceConnection",
-      items?:  Array< {
-        __typename: "UserPlace",
-        id: string,
-        description: string,
-        userID: string,
-        placeID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
