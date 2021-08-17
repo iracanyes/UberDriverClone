@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { Avatar, ToggleButton, Text } from "react-native-paper";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import styles from "./styles";
@@ -10,12 +15,14 @@ import Colors from "../../constants/Colors";
 import Entypo from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo";
 
 navigator.geolocation = require("@react-native-community/geolocation");
 
 const HomeMap = () => {
   const navigation = useNavigation();
   const [location, setLocation] = useState(null);
+  const [isOnline, setIsOnline] = useState(false);
 
   const fetchCurrentLocation = async () => {
     await Geolocation.getCurrentPosition((info) => {
@@ -25,12 +32,28 @@ const HomeMap = () => {
   };
 
   useEffect(() => {
+    const fetchNetworkState = async () => {
+      await NetInfo.fetch().then(state => {
+        console.log("fetchNetworkState state", state);
+        setIsOnline(state.isConnected);
+      });
+    };
+
+    fetchNetworkState();
+  }, []);
+
+  // Fetch current location
+  useEffect(() => {
     if (location === null) {
       fetchCurrentLocation();
     }
   }, [location]);
 
   const openMenu = () => {
+    console.log("Button open menu pressed!");
+  };
+
+  const bottomAction1 = () => {
     console.log("Button open menu pressed!");
   };
 
@@ -46,9 +69,7 @@ const HomeMap = () => {
           <Entypo name={"menu"} size={24} style={styles.iconMenu} />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.buttonPrice]}
-        >
+        <TouchableOpacity style={[styles.buttonPrice]}>
           <Avatar.Text
             size={36}
             label={`${0.12} €`}
@@ -131,6 +152,24 @@ const HomeMap = () => {
         >
           <Entypo name={"menu"} size={24} style={styles.iconMenu} />
         </TouchableOpacity>
+      </View>
+      <View style={styles.bottomContainer}>
+        <Pressable
+          style={styles.bottomLeftbutton}
+          onPress={() => bottomAction1()}
+        >
+          <Entypo name={"menu"} size={24} style={styles.iconMenu} />
+        </Pressable>
+        {isOnline
+          ? (<Text style={styles.bottomText}>You're online</Text>)
+          : (<Text style={styles.bottomText}>You're offline!</Text>)
+        }
+        <Pressable
+          style={styles.bottomRightbutton}
+          onPress={() => bottomAction1()}
+        >
+          <Entypo name={"menu"} size={24} style={styles.iconMenu} />
+        </Pressable>
       </View>
     </View>
   );

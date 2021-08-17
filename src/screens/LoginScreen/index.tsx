@@ -32,34 +32,34 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    const fetchAuthUser = async () => {
-      try {
-        const cognitoUser = await Auth.currentAuthenticatedUser({
-          bypassCache: true,
-        });
-
-        if (cognitoUser.attributes) {
-          const authUser = await getUserDB(
-            cognitoUser.attributes.sub,
-          );
-          if (authUser) {
-            navigation.navigate("Root", { screen: "Home" });
-          }
-        }
-      } catch (e) {
-        if (typeof e === "string") {
-          ToastAndroid.showWithGravity(
-            "Veuillez vous connecter! Pour accéder à l'application",
-            ToastAndroid.SHORT,
-            ToastAndroid.TOP,
-          );
-        } else {
-          console.warn("LoginScreen fetchAuthUser error", e);
+  const fetchAuthUser = async () => {
+    try {
+      const cognitoUser = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      
+      if (cognitoUser.attributes) {
+        const authUser = await getUserDB(
+          cognitoUser.attributes.sub,
+        );
+        if (authUser) {
+          navigation.navigate("Root", { screen: "Home" });
         }
       }
-    };
+    } catch (e) {
+      if (typeof e === "string") {
+        ToastAndroid.showWithGravity(
+          "Veuillez vous connecter! Pour accéder à l'application",
+          ToastAndroid.SHORT,
+          ToastAndroid.TOP,
+        );
+      } else {
+        console.warn("LoginScreen fetchAuthUser error", e);
+      }
+    }
+  };
 
+  useEffect(() => {
     fetchAuthUser();
   }, []);
 

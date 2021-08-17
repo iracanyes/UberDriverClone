@@ -63,6 +63,13 @@ const styles = StyleSheet.create({
   buttonLabelText: {
     fontWeight: "bold",
   },
+  bottomContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
 });
 
 export default styles;
