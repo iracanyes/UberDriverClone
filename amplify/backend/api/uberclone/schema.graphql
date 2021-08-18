@@ -2,6 +2,7 @@ type User @model {
   id: ID!
   username: String!
   email: String!
+  rating: Float
 
   orders: [Order] @connection(keyName: "byUser", fields: ["id"])
   car: Car @connection(fields: ["id"])
@@ -16,6 +17,7 @@ type Car @model
   longitude: Float,
   heading: Float,
   isActive: Boolean
+  rating: Float
 
   orders: [Order] @connection(keyName: "byCar", fields: ["id"])
 
@@ -30,7 +32,9 @@ type Order @model
   createdAt: String!
 
   type: String!
-  status: String,
+  status: String
+  duration: Int
+  distance: Float
 
   originLatitude: Float!
   originLongitude: Float!
@@ -74,10 +78,17 @@ type UserPlace
 ################
 # Subscription
 #
-#type Subscription {
-#  onOrderUpdated(id: ID!): Order @aws_subscribe(mutations: ["updateOrder"])
-#  onCarUpdated(id: ID!): Car @aws_subscribe(mutations: ["updateCar"])
-#}
+# onOrderUpdated(id: ID!)
+# Subscribe to the DB event listener for order update on specific order's id
+# Allow to receive updates on order
+#
+# onCarUpdated(id: ID!)
+# Subscribe to the DB event listener for car updates on specific car's id
+# Allow to receive updates on car object for specific id
+type Subscription {
+  onOrderUpdated(id: ID!): Order @aws_subscribe(mutations: ["updateOrder"])
+  onCarUpdated(id: ID!): Car @aws_subscribe(mutations: ["updateCar"])
+}
 ################
 
 ################

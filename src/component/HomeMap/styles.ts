@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   footerButtonContainer: {
     position: "absolute",
-    bottom: 60,
+    bottom: 80,
     left: 0,
   },
   roundedButton: {
@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     zIndex: 1,
+  },
+  iconMarkerUp: {
+    color: Colors.default.blue.primary,
+  },
+  iconMarkerDown: {
+    color: Colors.default.blue.primary,
   },
   buttonGo: {
     borderRadius: 50,

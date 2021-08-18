@@ -15,16 +15,19 @@ import Colors from "../../constants/Colors";
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import NetInfo from "@react-native-community/netinfo";
+import StatusBox from "../StatusBox";
 
 
 navigator.geolocation = require("@react-native-community/geolocation");
 
-const HomeMap = () => {
+const HomeMap = ({ order }: IHomeMapProps) => {
   const navigation = useNavigation();
   const [location, setLocation] = useState(null);
   const [isOnline, setIsOnline] = useState(false);
+  console.log("GOOGLE API KEY", Env.dev.GOOGLE_MAPS_PLACE_API_KEY);
 
   const fetchCurrentLocation = async () => {
     await Geolocation.getCurrentPosition((info) => {
@@ -103,7 +106,7 @@ const HomeMap = () => {
           initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,
-            latitudeDelta: 0.0622,
+            latitudeDelta: 0.0822,
             longitudeDelta: 0.0121,
           }}
           style={styles.map}
@@ -114,11 +117,17 @@ const HomeMap = () => {
           {/* Car Location */}
           <Marker title={"Position actuelle"} coordinate={location} />
           {/*** Directions ***/}
-          {/*
+          {order && (
             <MapViewDirections
-              apiKey={Env.dev.GOOGLE_MAPS_PLACE_API_KEY}
-              //origin={}
-              //destination={}
+              apikey={Env.dev.GOOGLE_MAPS_PLACE_API_KEY}
+              origin={{
+                latitude: order.originLatitude,
+                longitude: order.originLongitude,
+              }}
+              destination={{
+                latitude: order.destLatitude,
+                longitude: order.destLongitude,
+              }}
               strokeWidth={6}
               strokeColor={Colors.default.purple.light}
               strokeColors={[Colors.default.blue.primary]}
@@ -126,7 +135,35 @@ const HomeMap = () => {
                 console.log("MapViewDirections ready result", result)
               }
             />
-          */}
+          )}
+          {/*** Direction Origin Marker ****/}
+          <Marker
+            title={"Départ"}
+            coordinate={{
+              latitude: order.originLatitude,
+              longitude: order.originLongitude,
+            }}
+          >
+            <MaterialCommunityIcons
+              name={"map-marker"}
+              size={42}
+              style={styles.iconMarkerUp}
+            />
+          </Marker>
+          {/*** Direction Origin Marker ****/}
+          <Marker
+            title={"Arrivée"}
+            coordinate={{
+              latitude: order.destLatitude,
+              longitude: order.destLongitude,
+            }}
+          >
+            <MaterialCommunityIcons
+              name={"map-marker-check"}
+              size={42}
+              style={styles.iconMarkerDown}
+            />
+          </Marker>
           {/*** Directions ***/}
         </MapView>
       )}
@@ -178,11 +215,7 @@ const HomeMap = () => {
             />
           )}
         </Pressable>
-        {isOnline ? (
-          <Text style={styles.bottomText}>You're online</Text>
-        ) : (
-          <Text style={styles.bottomText}>You're offline!</Text>
-        )}
+        <StatusBox order={order} isOnline={isOnline} />
         <Pressable
           style={styles.bottomRightbutton}
           onPress={() => bottomAction1()}
