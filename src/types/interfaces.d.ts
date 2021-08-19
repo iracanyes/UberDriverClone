@@ -38,13 +38,26 @@ export interface IOrder {
   destLongitude: number;
   originLatitude: number;
   originLongitude: number;
+  pickedUp: boolean;
+  isFinished: boolean;
 
   userId: string;
   user: IUser;
 }
 
 export interface IHomeMapProps {
+  location: {
+    distance: number;
+    duration: number;
+  };
+  setLocation: Dispatch<
+    SetStateAction<{
+      distance: number;
+      duration: number;
+    }>
+  >;
   order: IOrder;
+  setOrder: Dispatch<SetStateAction<IOrder | null>>;
 }
 
 export interface INewOrderPopUp {
@@ -55,6 +68,10 @@ export interface INewOrderPopUp {
 }
 
 export interface IPickingUpClient {
+  order: IOrder;
+}
+
+export interface IDropOffClientProps {
   order: IOrder;
 }
 

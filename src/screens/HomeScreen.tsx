@@ -7,28 +7,31 @@ import { Title } from "react-native-paper";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { onUpdateOrder } from "../graphql/subscriptions";
 import { getCar, getUser } from "../graphql/queries";
+import DropOffClient from "../component/StatusBox/DropOffClient";
 
 const HomeScreen = () => {
   const [user, setUser] = useState(null);
   const [order, setOrder] = useState(null);
+  const [location, setLocation] = useState(null);
   const [newOrder, setNewOrder] = useState({
     createdAt: "",
     destLatitude: 37.424755,
     destLongitude: -122.079553,
     originLatitude: 37.417471,
     originLongitude: -122.089764,
-    duration: 72000,
+    duration: 103.81,
+    distance: 103.81,
     id: "aee4c1ab-7f10-4090-83ee-4cc8ee2242e1",
-    status: "open",
+    status: "Picking up someone",
     type: "UberX",
     userId: "b686e661-f5ae-4f5c-9d69-3e5615ec8b7b",
     user: {
       username: "Biggy",
       rating: 6.12,
     },
+    isFinished: false,
+    pickedUp: true,
   });
-  const [distance, setDistance] = useState(0.0);
-  const [duration, setDuration] = useState(0.0);
 
   let subscription;
 
@@ -98,9 +101,10 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <HomeMap
-        order
-        setDuration
-        setDistance
+        location={location}
+        setLocation={setLocation}
+        order={order}
+        setOrder={setOrder}
       />
       {newOrder && (
         <NewOrderPopUp
@@ -109,6 +113,9 @@ const HomeScreen = () => {
           onDecline={onDecline}
           onAccept={onAccept}
         />
+      )}
+      {order && order.isFinished && (
+        <DropOffClient order={order} />
       )}
     </View>
   );

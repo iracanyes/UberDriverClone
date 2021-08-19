@@ -3,11 +3,12 @@ import { StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import Colors from "../../constants/Colors";
 import PickingUpClient from "./PickingUpClient";
+import DropOffClient from "./DropOffClient";
 
 const StatusBox = ({ isOnline, order }) => {
   let status = null;
   if (isOnline) {
-    if (order) {
+    if (order !== null) {
       status = <PickingUpClient order={order} />;
     } else {
       status = <Text style={styles.bottomText}>You're online</Text>;

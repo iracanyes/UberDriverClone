@@ -10,14 +10,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    //paddingLeft: 10,
+    //backgroundColor: Colors.default.red.light,
   },
   headerText: {
     fontSize: 14,
     fontWeight: "bold",
     color: Colors.default.grey.dark,
+    //backgroundColor: Colors.default.blue.dark,
   },
   iconUser: {
-    marginHorizontal: 10,
+    padding: 5,
+    borderRadius: 50,
+    backgroundColor: Colors.default.green.primary,
+    marginHorizontal: 15,
+  },
+  inlineContent: {
+    width: 80,
+    flexDirection: "row",
+    //backgroundColor: Colors.default.blue.light,
+    justifyContent: "flex-end",
   },
   iconStar: {
     marginHorizontal: 5,

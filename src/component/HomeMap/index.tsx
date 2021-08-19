@@ -19,15 +19,14 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from "@react-navigation/native";
 import NetInfo from "@react-native-community/netinfo";
 import StatusBox from "../StatusBox";
-
+import { IHomeMapProps } from "../../types/interfaces";
 
 navigator.geolocation = require("@react-native-community/geolocation");
 
-const HomeMap = ({ order }: IHomeMapProps) => {
+const HomeMap = ({ location, setLocation, order, setOrder }: IHomeMapProps) => {
   const navigation = useNavigation();
-  const [location, setLocation] = useState(null);
   const [isOnline, setIsOnline] = useState(false);
-  console.log("GOOGLE API KEY", Env.dev.GOOGLE_MAPS_PLACE_API_KEY);
+  const [trafficVisibility, setTrafficVisibility] = useState(false);
 
   const fetchCurrentLocation = async () => {
     await Geolocation.getCurrentPosition((info) => {
@@ -38,10 +37,14 @@ const HomeMap = ({ order }: IHomeMapProps) => {
 
   useEffect(() => {
     const fetchNetworkState = async () => {
-      await NetInfo.fetch().then(state => {
-        console.log("fetchNetworkState state", state);
-        setIsOnline(state.isConnected);
-      });
+      try {
+        await NetInfo.fetch().then((state) => {
+          //console.log("fetchNetworkState state", state);
+          setIsOnline(state.isConnected);
+        });
+      } catch (e) {
+        console.warn("fetchNetworkState error", e);
+      }
     };
 
     fetchNetworkState();
@@ -58,12 +61,23 @@ const HomeMap = ({ order }: IHomeMapProps) => {
     console.log("Button open menu pressed!");
   };
 
+  // Ask permission enable network
   const onNetworkPress = () => {
     console.log("Button network pressed!");
   };
 
   const bottomAction1 = () => {
     console.log("Button open menu pressed!");
+  };
+
+  const onUserLocationChange = (event) => {
+    console.log("onUserLocationChange data", event.nativeEvent);
+    setLocation(event.nativeEvent.coordinate);
+  };
+
+  // Show traffic infos
+  const showTraffic = () => {
+    setTrafficVisibility(!trafficVisibility);
   };
 
   return (
@@ -113,11 +127,15 @@ const HomeMap = ({ order }: IHomeMapProps) => {
           zoomEnabled={true}
           zoomControlEnabled={false}
           showsUserLocation={true}
+          followsUserLocation={true}
+          userLocationUpdateInterval={20000}
+          onUserLocationChange={(data) => onUserLocationChange(data)}
+          showsTraffic={trafficVisibility}
         >
           {/* Car Location */}
           <Marker title={"Position actuelle"} coordinate={location} />
-          {/*** Directions ***/}
-          {order && (
+          {/*** Directions - Client order ***/}
+          {order !== null && (
             <MapViewDirections
               apikey={Env.dev.GOOGLE_MAPS_PLACE_API_KEY}
               origin={{
@@ -131,44 +149,91 @@ const HomeMap = ({ order }: IHomeMapProps) => {
               strokeWidth={6}
               strokeColor={Colors.default.purple.light}
               strokeColors={[Colors.default.blue.primary]}
-              onReady={(result) =>
-                console.log("MapViewDirections ready result", result)
-              }
+              onReady={(result) => {
+                console.log("MapViewDirections ready result", result);
+                if(order){
+                  setOrder({
+                    ...order,
+                    duration: result.duration,
+                    distance: result.distance,
+                    isFinished:
+                      order.pickedUp || result.distance < 0.2,
+                  });
+                }
+              }}
+            />
+          )}
+          {/*** Directions - Driver to Client ***/}
+          {order && location && (
+            <MapViewDirections
+              apikey={Env.dev.GOOGLE_MAPS_PLACE_API_KEY}
+              origin={{
+                latitude: location.latitude,
+                longitude: location.longitude,
+              }}
+              destination={{
+                latitude: order.originLatitude,
+                longitude: order.originLongitude,
+              }}
+              strokeWidth={6}
+              strokeColor={Colors.default.blue.primary}
+              strokeColors={[Colors.default.blue.primary]}
+              onReady={(result) => {
+                console.log("MapViewDirections ready result", result);
+                if (order) {
+                  setOrder({
+                    ...order,
+                    durationPickUp: result.duration,
+                    distancePickUp: result.distance,
+                    pickedUp: order.pickedUp || result.distance < 0.2,
+                  });
+                }
+              }}
             />
           )}
           {/*** Direction Origin Marker ****/}
-          <Marker
-            title={"Départ"}
-            coordinate={{
-              latitude: order.originLatitude,
-              longitude: order.originLongitude,
-            }}
-          >
-            <MaterialCommunityIcons
-              name={"map-marker"}
-              size={42}
-              style={styles.iconMarkerUp}
-            />
-          </Marker>
-          {/*** Direction Origin Marker ****/}
-          <Marker
-            title={"Arrivée"}
-            coordinate={{
-              latitude: order.destLatitude,
-              longitude: order.destLongitude,
-            }}
-          >
-            <MaterialCommunityIcons
-              name={"map-marker-check"}
-              size={42}
-              style={styles.iconMarkerDown}
-            />
-          </Marker>
+          {order !== null && (
+            <Marker
+              title={"Départ"}
+              coordinate={{
+                latitude: order.originLatitude,
+                longitude: order.originLongitude,
+              }}
+            >
+              <MaterialCommunityIcons
+                name={"map-marker"}
+                size={42}
+                style={styles.iconMarkerUp}
+              />
+            </Marker>
+          )}
+
+          {/*** Direction Destination Marker ****/}
+          {order !== null && (
+            <Marker
+              title={"Arrivée"}
+              coordinate={{
+                latitude: order.destLatitude,
+                longitude: order.destLongitude,
+              }}
+            >
+              <MaterialCommunityIcons
+                name={"map-marker-check"}
+                size={42}
+                style={styles.iconMarkerDown}
+              />
+            </Marker>
+          )}
+
           {/*** Directions ***/}
         </MapView>
       )}
       <View
-        style={[styles.buttonContainer, styles.footerButtonContainer]}
+        style={[
+          styles.buttonContainer,
+          styles.footerButtonContainer,
+          { bottom: order ? 100 : 80 },
+        ]}
       >
         <TouchableOpacity
           onPress={() => openMenu()}
@@ -176,7 +241,7 @@ const HomeMap = ({ order }: IHomeMapProps) => {
         >
           <Entypo name={"shield"} size={24} style={styles.iconMenu} />
         </TouchableOpacity>
-
+        {/* Button - Go ( Start strip ) */}
         <TouchableOpacity
           onPress={() => openMenu()}
           style={styles.buttonGo}
@@ -189,11 +254,24 @@ const HomeMap = ({ order }: IHomeMapProps) => {
           />
         </TouchableOpacity>
 
+        {/* Button - Show traffic info */}
         <TouchableOpacity
-          onPress={() => openMenu()}
-          style={[styles.roundedButton, styles.buttonMenu]}
+          onPress={() => showTraffic()}
+          style={[
+            styles.roundedButton,
+            styles.buttonMenu,
+            {
+              backgroundColor: trafficVisibility
+                ? Colors.default.green.primary
+                : Colors.default.grey.light,
+            },
+          ]}
         >
-          <Entypo name={"menu"} size={24} style={styles.iconMenu} />
+          <MaterialCommunityIcons
+            name={"road-variant"}
+            size={24}
+            style={styles.iconMenu}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
@@ -215,7 +293,7 @@ const HomeMap = ({ order }: IHomeMapProps) => {
             />
           )}
         </Pressable>
-        <StatusBox order={order} isOnline={isOnline} />
+        {isOnline && (<StatusBox order={order} isOnline={isOnline} />)}
         <Pressable
           style={styles.bottomRightbutton}
           onPress={() => bottomAction1()}

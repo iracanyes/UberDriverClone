@@ -27,3 +27,10 @@ $ amplify update api
 
 $ amplify push
 ````
+###Todo     
+
+- Logique à faire
+  - Variation en latitude/longitude de max 0,00001° == 95,6 m 
+  - Change state on driver arrive to pickup & Hide map directions
+  - Change state on driver arrive to destination
+- 

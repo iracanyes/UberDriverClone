@@ -12,8 +12,6 @@ import { INewOrderPopUp } from "../../types/interfaces";
 
 const NewOrderPopUp = ({
   newOrder,
-  distance,
-  duration,
   setNewOrder,
   onDecline,
   onAccept,
@@ -87,10 +85,10 @@ const NewOrderPopUp = ({
             <Title
               style={styles.title}
             >
-              {`${newOrder.duration || 12} min`}
+              {`${Math.round(newOrder.duration || 12)} min`}
             </Title>
             <Paragraph style={styles.caption}>
-              {`${newOrder.distance || 2.3} ml`}
+              {`${newOrder.distance || 2.3} km`}
             </Paragraph>
           </Card.Content>
           <View style={styles.footer}>

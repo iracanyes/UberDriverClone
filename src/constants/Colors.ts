@@ -53,5 +53,8 @@ export default {
     green: {
       primary: "#36c400",
     },
+    orange: {
+      primary: "#ff8103",
+    }
   },
 };
