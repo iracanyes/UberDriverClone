@@ -57,7 +57,8 @@ $ amplify pull
 ###Todo     
 
 - Logique à faire
-  - Variation en latitude/longitude de max 0,00001° == 95,6 m 
-  - Change state on driver arrive to pickup & Hide map directions
-  - Change state on driver arrive to destination
+  - Variation en latitude/longitude de max 0,00001° == 95,6 m
+    - Recevoir les commandes proches 7km à la ronde 0.07° de différence
+  - Change state on driver arrive to pickup & Hide map directions to pick up
+  - Change state on driver arrive to destination 
 - 
