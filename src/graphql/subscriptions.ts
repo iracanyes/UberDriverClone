@@ -355,6 +355,8 @@ export const onCreateOrder = /* GraphQL */ `
       originLongitude
       destLatitude
       destLongitude
+      isFinished
+      pickedUp
       userId
       user {
         id

@@ -26,7 +26,34 @@ $ amplify pull --appId [project_id] --envName dev
 $ amplify update api
 
 $ amplify push
+
 ````
+###### Remarque: AWS Backend 2 source of thruth
+
+Lorsqu'on importe un backend AWS Amplify dans 2 applications différentes,
+il faut éviter des modifications conflictuelles du backend dans 2 apps.
+Car si une modification est effectué dans le backend de l'app A et que cette modification 
+n'est pas importé dans l'app A avant tout autre modification. Cela génére des conflits de configurations.
+
+````shell
+Path_to_app_A$ amplify push 
+Path_to_app_A$ cd path_to_app_B/
+Path_to_app_B$ amplify pull
+````
+
+######Solution:
+
+Copier seulement le fichier aws-exports.js qui permet de configurer AWS Amplify du projet A
+dans le projet B avant d'importer la configuration.
+Ainsi, il existera seulement une seule source de vérité. Tout modification du backend se fera dans l'app A.
+````shell
+$ cp route_to_app_A/aws-exports.js route_to_app_B/
+
+$ cd route_to_app_B/
+
+$ amplify pull
+````
+
 ###Todo     
 
 - Logique à faire

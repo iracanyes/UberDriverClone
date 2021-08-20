@@ -25,31 +25,28 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     borderColor: Colors.default.grey.primary,
-    marginVertical: 10,
+    marginTop: 10,
     paddingLeft: 10,
+    borderBottomLeftRadius: 0,
   },
   inputWrapper: {},
-  inputBox: {},
-  inputEmail: {
+  inputBox: {
+  },
+  inputCode: {
     paddingLeft: 45,
   },
-  inputPassword: {
-    paddingRight: 60,
-    paddingLeft: 45,
-  },
-  iconAtSign: {},
-  iconLock: {},
-  showPasswordIcon: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 20,
+  resendButton: {
+    width: 230,
+    padding: 10,
+    flexDirection: "row",
+    backgroundColor: Colors.default.green.primary,
+    borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 20,
-    backgroundColor: Colors.default.red.light,
+  },
+  iconLock: {
     position: "absolute",
-    bottom: 12,
-    right: 2,
+    top: 20,
+    left: 10,
   },
   buttonWrapper: {
     flexDirection: "row",
@@ -74,11 +71,6 @@ const styles = StyleSheet.create({
     color: Colors.dark.text,
     fontWeight: "bold",
     marginLeft: 10,
-  },
-  iconBeforeInput: {
-    position: "absolute",
-    bottom: 20,
-    left: 10,
   },
   iconSubmit: {},
   iconCancel: {},

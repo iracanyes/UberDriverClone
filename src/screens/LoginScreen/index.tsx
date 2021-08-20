@@ -37,7 +37,7 @@ const LoginScreen = () => {
       const cognitoUser = await Auth.currentAuthenticatedUser({
         bypassCache: true,
       });
-      
+
       if (cognitoUser.attributes) {
         const authUser = await getUserDB(
           cognitoUser.attributes.sub,
@@ -45,6 +45,8 @@ const LoginScreen = () => {
         if (authUser) {
           navigation.navigate("Root", { screen: "Home" });
         }
+      } else {
+        navigation.navigate("SignUp");
       }
     } catch (e) {
       if (typeof e === "string") {
@@ -69,7 +71,11 @@ const LoginScreen = () => {
         graphqlOperation(getUser, { id: userID }),
       );
 
-      return res.data.getUser ? res.data.getUser : undefined;
+      if (res.data.getUser) {
+        return res.data.getUser;
+      } else {
+        await createUserDB(userID);
+      }
     } catch (e) {
       console.warn("LoginScreen useEffect getUser error ", e);
     }
@@ -102,7 +108,7 @@ const LoginScreen = () => {
           navigation.navigate(
             "ConfirmSignUp",
             {
-              email,
+              email: email,
             }
           );
           break;
@@ -119,7 +125,7 @@ const LoginScreen = () => {
         graphqlOperation(createUser, {
           input: {
             id: userID,
-            username: email,
+            username: email.split("@")[0],
             email,
           },
         }),

@@ -75,6 +75,14 @@ export interface IDropOffClientProps {
   order: IOrder;
 }
 
+export interface IConfirmSignUpRouteProps {
+  params: {
+    email: string;
+    user: undefined;
+    userSub: undefined;
+  };
+}
+
 /*
 export interface IVideoPlayerProps {
   data: IMovie | IEpisode;

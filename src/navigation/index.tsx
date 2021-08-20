@@ -16,6 +16,7 @@ import {
 } from "../screens";
 import { INavigationProps } from "../types/interfaces";
 import DrawerMenu from "./DrawerMenu";
+import { navigationRef } from "./RootNavigation";
 
 const Navigation = (props: INavigationProps) => {
   const { colorScheme } = props;
@@ -24,6 +25,7 @@ const Navigation = (props: INavigationProps) => {
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       linking={LinkingConfiguration}
+      ref={navigationRef}
     >
       <RootNavigator />
     </NavigationContainer>
@@ -38,7 +40,7 @@ const RootNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"Root"}
+      initialRouteName={"Login"}
     >
       <Stack.Screen name={"Login"} component={LoginScreen} />
       <Stack.Screen name={"SignUp"} component={SignUpScreen} />

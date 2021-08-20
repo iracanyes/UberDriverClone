@@ -20,15 +20,14 @@ import {
 } from "react-native";
 import Navigation from "./src/navigation";
 import Colors from "./src/constants/Colors";
-import { Amplify } from "aws-amplify";
+import { Amplify, Hub } from "aws-amplify";
 import config from "./src/aws-exports";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
+import * as RootNavigation from "./src/navigation/RootNavigation";
 Amplify.configure(config);
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === "dark";
-
   const backgroundStyle = {
     backgroundColor: isDarkMode
       ? Colors.default.black.primary
@@ -66,6 +65,34 @@ const App: () => Node = () => {
 
   useEffect(() => {
     getAndroidPermission();
+  }, []);
+
+  useEffect(() => {
+    const fetchAuthUser = async () => {
+      Hub.listen("auth", (data) => {
+        console.log("Hub.listen data", data);
+        switch (data.payload.event) {
+          case "signIn":
+            console.log("user signed in");
+            RootNavigation.navigate("Root", { screen: "Home" });
+            break;
+          case "signUp":
+            console.log("user signed up");
+            RootNavigation.navigate("Login");
+            break;
+          case "signOut":
+            console.log("user signed out");
+            RootNavigation.navigate("Login");
+            break;
+          case "signIn_failure":
+            console.log("user sign in failed", data);
+            break;
+          case "configured":
+            console.log("the Auth module is configured");
+        }
+      });
+    };
+    fetchAuthUser();
   }, []);
 
   return (

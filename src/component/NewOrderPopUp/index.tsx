@@ -18,7 +18,6 @@ const NewOrderPopUp = ({
 }: INewOrderPopUp) => {
   const [user, setUser] = useState({});
   const [counter, setCounter] = useState(60);
-  console.log("counter", counter);
 
   useEffect(() => {
     const timer =

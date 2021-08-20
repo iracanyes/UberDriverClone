@@ -17,7 +17,8 @@ import Colors from "../../constants/Colors";
 import { getUser } from "../../graphql/queries";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { IConfirmSignUpRouteProps } from "../../types/interfaces";
-import { createUser } from "../../graphql/mutations";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 
 /**
  *
@@ -34,6 +35,7 @@ const ConfirmSignUpScreen = (): JSX.Element => {
     },
   } = useRoute<IConfirmSignUpRouteProps>();
   const [verificationCode, setVerificationCode] = useState(undefined);
+  console.log("ConfirmSignUpScreen email", email);
 
   const confirmSignUp = async () => {
     try {
@@ -45,15 +47,22 @@ const ConfirmSignUpScreen = (): JSX.Element => {
 
         navigation.navigate("Login");
       }
-
-      // eslint-disable-next-line no-empty
     } catch (e) {
       switch (e.code) {
         case "UserNotFoundException":
           navigation.navigate("SignUp");
           break;
       }
-      console.warn("ConfirmSignUpScreen confirmSignUp error", e);
+      console.warn("ConfirmSignUp error", e);
+    }
+  };
+
+  const resendConfirmationCode = async () => {
+    try {
+      await Auth.resendSignUp(email.split("@")[0]);
+      console.log("code resent successfully");
+    } catch (e) {
+      console.warn("resendConfirmationCode error: ", e);
     }
   };
 
@@ -66,27 +75,42 @@ const ConfirmSignUpScreen = (): JSX.Element => {
     <SafeAreaView style={styles.container}>
       <StatusBar
         animated={true}
-        backgroundColor={Colors.dark.background}
-        barStyle={Colors.dark.text}
+        backgroundColor={"transparent"}
+        barStyle={"light-content"}
+        translucent={true}
       />
       <View style={styles.formWrapper}>
         <Text style={styles.title}>Entrer votre code de vérification</Text>
         <Text>Consulter votre boîte de réception</Text>
         <View style={styles.inputWrapper}>
           <View>
-            <Foundation
-              name={"lock"}
-              size={30}
-              style={styles.iconBeforeInput}
-            />
-            <TextInput
-              value={verificationCode}
-              placeholder={"*********"}
-              onChangeText={text => setVerificationCode(text)}
-              autoFocus
-              keyboardType={"email-address"}
-              style={[styles.input, styles.inputEmail]}
-            />
+            <View style={styles.inputBox}>
+              <Foundation
+                name={"lock"}
+                size={30}
+                style={styles.iconLock}
+              />
+              <TextInput
+                value={verificationCode}
+                placeholder={"*********"}
+                onChangeText={text => setVerificationCode(text)}
+                autoFocus
+                keyboardType={"email-address"}
+                style={[styles.input, styles.inputCode]}
+              />
+            </View>
+            
+            <TouchableOpacity
+              onPress={() => resendConfirmationCode()}
+              style={styles.resendButton}
+            >
+              <MaterialCommunityIcons
+                name={"email-send"}
+                size={24}
+    
+              />
+              <Text>Resend confirmation code</Text>
+            </TouchableOpacity>
           </View>
           
         </View>

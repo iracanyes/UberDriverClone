@@ -9,8 +9,6 @@ import styles from "./styles";
 import { IPickingUpClient } from "../../../types/interfaces";
 
 const PickingUpClient = ({ order }: IPickingUpClient) => {
-  console.log("PickingUpClient order", order);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
