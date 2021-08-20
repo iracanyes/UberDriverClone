@@ -60,7 +60,7 @@ const HomeScreen = () => {
         const orderData = value.data.onCreateOrder;
 
         // If order near car, add to newOrders array
-        const distance =
+        const distance = (
           6372.795477598 *
           Math.acos(
             Math.sin(location.latitude) *
@@ -68,30 +68,21 @@ const HomeScreen = () => {
               Math.cos(location.latitude) *
                 Math.cos(orderData.originLatitude) *
                 Math.cos(location.longitude - orderData.originLongitude),
-          );
-
-        console.log(
-          "createOrderSubscription Distance to Client",
-          distance,
+          )
         );
-        const diffLatitude =
-          Math.abs(location.latitude) -
-          Math.abs(orderData.originLatitude);
-        const diffLongitude =
-          Math.abs(location.longitude) -
-          Math.abs(orderData.originLongitude);
 
-        console.log("diffLatitude", diffLatitude);
-        console.log("diffLongitude", diffLongitude);
-        console.log("diffLatitude 0 <= x <= 0.5", (diffLatitude >= 0 && diffLatitude <= 0.05));
-        console.log("diffLongitude 0 <= x <= 0.5", (diffLatitude >= 0 && diffLatitude <= 0.05));
-        console.log("newOrders.find(el => el.id === orderData.id)", newOrders.find(el => el.id === orderData.id));
-        
+
+        const diffLatitude = Math.abs(location.latitude) - Math.abs(orderData.originLatitude);
+        const diffLongitude = Math.abs(location.longitude) - Math.abs(orderData.originLongitude);
+
         if (
           (diffLatitude >= 0 && diffLatitude <= 0.05) ||
           (diffLongitude >= 0 && diffLongitude <= 0.05)
         ) {
-          if (newOrders.find(el => el.id === orderData.id) === undefined) {
+          if (
+            newOrders.find((el) => el.id === orderData.id) ===
+            undefined
+          ) {
             console.log("push order to newOrders");
             newOrders.push(order);
           }
@@ -100,17 +91,38 @@ const HomeScreen = () => {
       error: (e) => console.warn("createOrderSubscription error", e),
     });
 
-    if(order){
+    if (order) {
       updateOrderSubscription = API.graphql({
         query: onUpdateOrder,
-        variables: {
-          id: order.id,
-        },
+        //variables: { id: order.id },
       }).subscribe({
-        next: (data) => {
-          console.log("Subscription on create order", data);
-      
-          //setOrder(data);
+        next: ({ value }) => {
+          console.log("Subscription on update order", value);
+
+          if (value.data.onUpdateOrder) {
+            // If it's the active order, update it
+            if (order && order.id === value.data.onUpdateOrder.id) {
+              setOrder(value.data.onUpdateOrder);
+            }
+
+            // If newOrders contains the order updated, if taken by another driver delete it from newOrders
+            const arr = newOrders;
+            const index = arr
+              .map((el) => el.id)
+              .indexOf(value.data.onUpdateOrder.id);
+            console.log("newOrders", arr);
+            console.log("Order index", index);
+            console.log("Order exist in newOrders", index > -1);
+
+            if (index > -1) {
+              if (value.data.onUpdateOrder.status === "Started") {
+                arr.splice(index, 1);
+                console.log("updated newOrders", arr);
+                setNewOrders(arr);
+              }
+            }
+          }
+          //
         },
         error: (error) => {
           console.warn("Subscription car update error", error);
@@ -129,6 +141,7 @@ const HomeScreen = () => {
   /***
    * Show new order if no new order already shown
    * Check if order already taken by an other driver
+   * Take the first element of the array, as each newOrder is pushed in the array
    */
   useEffect(() => {
     const checkOrder = async () => {
@@ -138,6 +151,7 @@ const HomeScreen = () => {
         );
 
         if (res.data.getOrder) {
+          // If Order has a driver, remove it from newOrders
           if (res.data.getOrder.car) {
             const arr = newOrders;
             arr.splice(0, 1);
